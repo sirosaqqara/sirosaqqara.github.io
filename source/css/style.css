@@ -1,0 +1,224 @@
+
+/* 滚动条 */
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+   
+  ::-webkit-scrollbar-track {
+    background-color: rgba(73, 177, 245, 0.2);
+    border-radius: 2em;
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background-color: #49b1f5;
+    background-image: -webkit-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.4) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0.4) 75%,
+      transparent 75%,
+      transparent
+    );
+    border-radius: 2em;
+  }
+   
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+   
+  ::-moz-selection {
+    color: #fff;
+    background-color: #49b1f5;
+  }
+
+/* 鼠标指针 */
+body {
+    cursor: url(https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/Cursors/Comix_Orange/default.cur), auto !important;
+}
+
+a,
+img {
+    cursor: url(https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/Cursors/Comix_Orange/pointer.cur), auto !important;
+}
+
+
+/* 透明度 */
+#content-inner {
+  --light_bg_color: hsla(0,0%,100%,0.9);
+  --dark_bg_color: rgba(18,18,18,0.9);
+  --light_page_color: hsla(0,0%,100%,0.9);
+  --dark_page_color: rgba(18,18,18,0.9);
+  --light_link-bg: rgba(237,240,247,0.46);
+  --dark_link-bg: rgba(237,240,247,0.05);
+}
+/* 文章页及首页卡片透明 */
+#recent-posts>.recent-post-item,.layout>div:first-child:not(.recent-posts),.layout_post>#page,.layout_post>#post,.read-mode .layout_post>#post {
+  background: var(--light_page_color)
+}
+/* 侧边栏透明 */
+#aside-content .card-widget {
+  background: var(--light_bg_color)
+}
+/*侧边栏深色页面透明 */
+[data-theme=dark] #aside-content .card-widget {
+  background: var(--dark_bg_color)
+}
+/*首页深色页面透明 */
+[data-theme=dark] #recent-posts>.recent-post-item,[data-theme=dark] .layout>div:first-child:not(.recent-posts),[data-theme=dark] .layout_post>#page,[data-theme=dark] .layout_post>#post,[data-theme=dark] .read-mode .layout_post>#post {
+  background: var(--dark_page_color)
+}
+/*友链边框 */
+#article-container .flink .flink-list>.flink-list-item {
+  background: var(--light_link-bg)
+}
+/*友链深色页面边框 */
+[data-theme=dark] #article-container .flink .flink-list>.flink-list-item {
+  background: var(--dark_link-bg)
+}
+
+/* 修改图片圆角 */
+img[src*="#img-radius"] {
+  border-radius: 9px;
+}
+/* 侧边栏圆角 */
+#aside-content .card-widget {
+border-radius: 25px;
+}
+/* 文章页圆角 */
+.layout>div:first-child:not(.recent-posts) {
+border-radius: 25px;
+}
+/* 双栏卡片圆角 */
+#recent-posts>.recent-post-item {
+border-radius: 25px;
+}
+/* github按钮圆角 */
+#card-info-btn{
+border-radius: 25px;
+overflow: hidden}
+#card-info-btn:before{
+border-radius: 25px
+}
+/* 右侧小按钮圆角 */
+#rightside>div>button,#to_comment {
+margin-right: 4px;
+border-radius: 5px;
+}
+/* 翻页圆角 */
+#pagination a.extend,
+#pagination .page-number,
+#pagination span {
+color: var(--font-color);
+background-color: var(--card-bg);
+border-radius: 8px;
+height: 1.6rem;
+text-align: center;
+line-height: 1.6rem;
+display: inline-block;
+min-width: 1.6rem;
+}
+/* 目录圆角 */
+#aside-content #card-toc .toc-content .toc-link.active {
+  border-radius: 8px;
+}
+
+
+@font-face{
+  font-family:'roboto' ;  /* 字体名自定义即可 */
+  src:url('../css/zk.ttf'); /* 字体文件路径 */
+  font-display: swap;
+}
+
+h1#site-title {
+  font-family: 'roboto', sans-serif;
+}
+span#subtitle {
+  font-family: 'roboto', sans-serif;
+}
+a.article-title {
+  font-family: 'roboto', sans-serif;
+}
+.content {
+  font-family: 'roboto', sans-serif;
+}
+.article-meta-wrap {
+  font-family: 'roboto', sans-serif;
+}
+div#bbtalk {
+  font-family: 'roboto', sans-serif;
+}
+a#site-name {
+  font-family: 'roboto', sans-serif;
+}
+.card-info-avatar.is-center {
+  font-family: 'roboto', sans-serif;
+}
+p {
+  font-family: 'roboto', sans-serif;
+}
+.card-widget.card-tags {
+  font-family: 'roboto', sans-serif;
+}
+.card-widget.card-webinfo {
+  font-family: 'roboto', sans-serif;
+}
+element.style {
+  font-family: 'roboto', sans-serif;
+}
+.aplayer-music {
+  font-family: 'roboto', sans-serif;
+}
+div#hopelight_plus_menu {
+  font-family: 'roboto', sans-serif;
+}
+div#menus {
+  font-family: 'roboto', sans-serif;
+}
+div#local-search-title {
+  font-family: 'roboto', sans-serif;
+}
+input.local-search-box--input {
+  font-family: 'roboto', sans-serif;
+}
+div#post-info {
+  font-family: 'roboto', sans-serif;
+}
+.post-copyright {
+  font-family: 'roboto', sans-serif;
+}
+.sticky_layout {
+  font-family: 'roboto', sans-serif;
+}
+.search-dialog {
+  font-family: 'roboto', sans-serif;
+}
+main#content-inner {
+  font-family: 'roboto', sans-serif;
+}
+p {
+  font-family: 'roboto', sans-serif !important;
+  font-size: 16px;
+}
+ol {
+  font-size: 16px;
+}
+h2 {
+  font-size: 24px;
+}
+h3 {
+  font-size: 20px;
+}
+h4 {
+  font-size: 18px;
+}
+#footer-wrap {
+  font-family: 'roboto', sans-serif;    /* 手机侧边栏 */
+}
+#sidebar #sidebar-menus.open {
+  font-family: 'roboto', sans-serif;    /* 页脚 */
+}
+
+

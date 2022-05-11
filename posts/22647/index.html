@@ -1,0 +1,446 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>指针和引用 | 杨杨杨杨杨桃</title><meta name="keywords" content="C++,指针,引用"><meta name="author" content="钛合金杨桃"><meta name="copyright" content="钛合金杨桃"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="C++中非常重要的一个工具就是强大灵活的指针，当然他的灵活也会导致一些琐碎的问题和细节上需要注意的事项，这篇就来整理一下指针的相关知识。 什么是指针 在C++中，定义了变量一般会在内存中随机分配一块地址，而指针则可以间接地访问到内存中的地址进行数据的读写。 由于指针与内存的联系十分紧密，要想理解指针，首先要从内存说起。 变量在内存中的存储 程序中定义了一个int a &#x3D; 1，那么其在内存中的存储格">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指针和引用">
+<meta property="og:url" content="https://yangtao.fun/posts/22647/index.html">
+<meta property="og:site_name" content="杨杨杨杨杨桃">
+<meta property="og:description" content="C++中非常重要的一个工具就是强大灵活的指针，当然他的灵活也会导致一些琐碎的问题和细节上需要注意的事项，这篇就来整理一下指针的相关知识。 什么是指针 在C++中，定义了变量一般会在内存中随机分配一块地址，而指针则可以间接地访问到内存中的地址进行数据的读写。 由于指针与内存的联系十分紧密，要想理解指针，首先要从内存说起。 变量在内存中的存储 程序中定义了一个int a &#x3D; 1，那么其在内存中的存储格">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/08/182005.gif">
+<meta property="article:published_time" content="2022-04-20T08:08:35.000Z">
+<meta property="article:modified_time" content="2022-05-11T08:41:24.175Z">
+<meta property="article:author" content="钛合金杨桃">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="指针">
+<meta property="article:tag" content="引用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/08/182005.gif"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/avatar/carambola.jpg"><link rel="canonical" href="https://yangtao.fun/posts/22647/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 钛合金杨桃","link":"链接: ","source":"来源: 杨杨杨杨杨桃","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '指针和引用',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-11 16:41:24'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/showbb.css"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/modify.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="杨杨杨杨杨桃" type="application/rss+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/avatar/carambola.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主主主主主页</span></a></div><div class="menus_item"><a class="site-page" href="/bb/"><i class="fa-fw fas fa-bomb"></i><span> 碎碎碎碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归归归归归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标标标标标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分分分分分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链链链链链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/20/161252.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">杨杨杨杨杨桃</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主主主主主页</span></a></div><div class="menus_item"><a class="site-page" href="/bb/"><i class="fa-fw fas fa-bomb"></i><span> 碎碎碎碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归归归归归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标标标标标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分分分分分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链链链链链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">指针和引用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-20T08:08:35.000Z" title="发表于 2022-04-20 16:08:35">2022-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-11T08:41:24.175Z" title="更新于 2022-05-11 16:41:24">2022-05-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="指针和引用"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>C++中非常重要的一个工具就是强大灵活的指针，当然他的灵活也会导致一些琐碎的问题和细节上需要注意的事项，这篇就来整理一下指针的相关知识。</p>
+<h2 id="什么是指针">什么是指针</h2>
+<p>在C++中，定义了变量一般会在内存中随机分配一块地址，而指针则可以间接地访问到内存中的地址进行数据的读写。</p>
+<p>由于指针与内存的联系十分紧密，要想理解指针，首先要从内存说起。</p>
+<h2 id="变量在内存中的存储">变量在内存中的存储</h2>
+<p>程序中定义了一个<code>int a = 1</code>，那么其在内存中的存储格式是这样的：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">…</th>
+<th style="text-align:center">…</th>
+<th style="text-align:center">…</th>
+<th style="text-align:center">00000000</th>
+<th style="text-align:center">00000000</th>
+<th style="text-align:center">00000000</th>
+<th style="text-align:center">00000001</th>
+<th style="text-align:center">…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">低地址</td>
+<td style="text-align:center">0028FF40</td>
+<td style="text-align:center">0028FF41</td>
+<td style="text-align:center">0028FF42</td>
+<td style="text-align:center">0028FF43</td>
+<td style="text-align:center">高地址</td>
+</tr>
+</tbody>
+</table>
+<p>int类型占4个字节，其首地址表示占据内存的地址</p>
+<p>用来保存指针的对象也是一种变量，如果定义一个指针int* p保存a的地址(即p指向a)，则其在内存中的存储是这样的：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">…</th>
+<th style="text-align:center">0028FF40</th>
+<th style="text-align:center">…</th>
+<th style="text-align:center">00000000</th>
+<th style="text-align:center">00000000</th>
+<th style="text-align:center">00000000</th>
+<th style="text-align:center">00000001</th>
+<th style="text-align:center">…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">xxxxxxxx</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">0028FF40</td>
+<td style="text-align:center">0028FF41</td>
+<td style="text-align:center">0028FF42</td>
+<td style="text-align:center">0028FF43</td>
+<td style="text-align:center">高地址</td>
+</tr>
+</tbody>
+</table>
+<h2 id="指针的基本使用">指针的基本使用</h2>
+<h3 id="指针变量的定义">指针变量的定义</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* p_int;   <span class="comment">//指向int类型变量的指针         </span></span><br><span class="line"></span><br><span class="line"><span class="type">double</span>* p_double;  <span class="comment">//指向double类型变量的指针  </span></span><br><span class="line">   </span><br><span class="line">Student* p_struct;  <span class="comment">//类或结构体类型的指针</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span>** p_pointer;  <span class="comment">//指向 一个整形变量指针的指针</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">int</span>(*p_arr)[<span class="number">3</span>];  <span class="comment">//指向含有3个int元素的数组的指针 </span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">int</span>(*p_func)(<span class="type">int</span>,<span class="type">int</span>);  <span class="comment">//指向返回类型为int，有2个int形参的函数的指针  </span></span><br></pre></td></tr></table></figure>
+<h3 id="指针变量的解析">指针变量的解析</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> *p = &amp;a;</span><br><span class="line">*p = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line">cout&lt;&lt;a&lt;&lt;endl;</span><br></pre></td></tr></table></figure>
+<h3 id="指针的算数运算">指针的算数运算</h3>
+<p>指针可以通过加上或减去一个整数访问其他内存地址，其运算是根据指针的数据类型来执行的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> arr[<span class="number">5</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line"><span class="type">int</span> *p1 = arr;</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> str[<span class="number">5</span>] = &#123;<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>&#125;;</span><br><span class="line"><span class="type">char</span>* p2 = str;</span><br><span class="line"></span><br><span class="line">cout&lt;&lt;*p1&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;*(p1+<span class="number">1</span>)&lt;&lt;endl; <span class="comment">//1 2</span></span><br><span class="line">cout&lt;&lt;*p2&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;*(p2+<span class="number">1</span>)&lt;&lt;endl; <span class="comment">//1 2</span></span><br></pre></td></tr></table></figure>
+<p>上面例子可以看出虽然p1，p2都是加了1，但他们并不是都指向了原地址后一个字节的地址，而是根据不同的数据类型，乘以了<code>sizeof(type)</code>。</p>
+<h2 id="空指针和野指针">空指针和野指针</h2>
+<h3 id="空指针">空指针</h3>
+<h4 id="空指针常量">空指针常量</h4>
+<p>一个表示0值的整数常量，叫做空指针常量。例如：0、0L、1-1（它们都是值为0的整数常量表达式）以及<code>(void*)0、void* NULL</code> 都是空指针常量，空指针常量可以赋值给任何指针类型，因为它是变体类型<code>（void*）</code>。但是我们更倾向于使用NULL表示这个空指针常量。对于其它方式（比如0）来表示空指针常量虽然不会产生任何问题，但是在根本意义上并不符合空指针常量的定义。因为空指针常量的存在意义还在强调它并不指向任何对象</p>
+<h4 id="空指针-2">空指针</h4>
+<p>空指针不指向任何实际的对象或者函数。</p>
+<p>空指针是一个特殊的指针，因为这个指针不指向任何地方。这意味任何一个有效的指针如果和空指针进行相等的比较运算时，结果都是false。</p>
+<h4 id="空指针指向内存的什么地方">空指针指向内存的什么地方</h4>
+<p>标准并没有对空指针指向内存中的什么地方这一问题作出规定，也就是说用哪个具体地址值表示空指针取决于系统实现。我们常见的空指针一般指向0地址，即空指针的内部用全0来表示。<span style="background:#FF9999;">这个地址没有实际的物理地址与之对应，所以访问这个地址会报空指针异常</span>。</p>
+<h3 id="野指针">野指针</h3>
+<p>野指针不是空指针，是一个指向非法内存空间的指针。</p>
+<h4 id="野指针的产生原因">野指针的产生原因</h4>
+<ol>
+<li>指针变量没有初始化</li>
+</ol>
+<p>任何指针变量被刚创建时不会被自动初始化为NULL指针，它的缺省值是随机的。所以，指针变量在创建的同时应当被初始化，要么将指针设置为NULL，要么让它指向合法的内存。</p>
+<ol start="2">
+<li>指针被delete或free后没有及时置空或指向其他有效地址</li>
+</ol>
+<p>free和delete只是把指针所指向的内存给释放掉，但并没有把指针本身给清理掉。这时候的指针依然指向原来的位置，只不过这个位置的内存数据已经被毁尸灭迹，此时的这个指针指向的内存就是一个垃圾内存。</p>
+<ol>
+<li>指针超越变量作用范围</li>
+</ol>
+<p>因为指针可以做算数运算，故可能会由于运算导致指针指向了变量以外的内存空间。另一种情况是函数返回了<span style="background:#FF9999;">非静态局部变量的地址</span>，因为该变量已经脱离了作用域而被系统销毁，此时接受返回值的指针就是一个野指针，示例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span>* <span class="title">test</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> sum = a + b;</span><br><span class="line">    <span class="type">int</span>* p = &amp;sum;</span><br><span class="line">    <span class="keyword">return</span> p; <span class="comment">//不要返回临时变量的地址</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">10</span>, b = <span class="number">20</span>;</span><br><span class="line">    <span class="type">int</span> *p = <span class="built_in">test</span>(a, b);</span><br><span class="line">    cout&lt;&lt;*p&lt;&lt;endl; </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="函数和指针">函数和指针</h2>
+<p><a id="functionParametersAndPointers"></a></p>
+<h3 id="函数的参数和指针">函数的参数和指针</h3>
+<p>实参传递给形参，是按值传递的，也就是说，函数中的形参是实参的拷贝份，形参和实参只是在值上面一样，而不是同一个内存数据对象。这就意味着：这种数据传递是单向的，即从调用者传递给被调函数，而被调函数无法修改传递的参数达到回传的效果。</p>
+<p>当然可以通过返回值将修改后的参数返回，但当需要修改的参数不止一个，返回值就无能为力了，传递参数的指针就可以解决这个问题，指针传递的是参数的地址，当形参改变，实参也会跟着改变。</p>
+<h3 id="函数的返回值和指针">函数的返回值和指针</h3>
+<p>当函数的返回值是一个指针，那么可以称为指针函数，其本质是一个函数。</p>
+<p>唯一需要注意的一点是上文提到的不要<span style="background:#FF9999;">返回非静态局部变量的地址</span>，会产生野指针。</p>
+<h3 id="函数的指针">函数的指针</h3>
+<p>即函数指针，其本质是一个指向函数的指针，不要和指针函数混淆。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">test</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> sum = a + b;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">int</span> (*p)(<span class="type">int</span>,<span class="type">int</span>); <span class="comment">//函数指针的声明，该指针指向有两个整形参数，返回整型的一个函数</span></span><br><span class="line">    p = test; <span class="comment">//函数名就是函数的地址</span></span><br><span class="line">    cout&lt;&lt;<span class="built_in">p</span>(<span class="number">10</span>,<span class="number">20</span>); <span class="comment">//函数指针可以直接当函数名进行调用</span></span><br><span class="line">    cout&lt;&lt;(*p)(<span class="number">10</span>,<span class="number">20</span>); <span class="comment">//也可以解指针后调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="const和指针">const和指针</h2>
+<p>const作为修饰词，其在搭配指针使用时非常重要的一个知识就是const修饰的对象是谁。</p>
+<blockquote>
+<p>注意使用了const修饰词，必须初始化哦</p>
+</blockquote>
+<h3 id="常量指针">常量指针</h3>
+<p>常量指针指的是指向一个常量的指针，即指针的值可以更改，但指针的指向的内容无法通过指针更改(指针指向的是常量)。示例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">2</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span>* p = a; <span class="comment">//定义常量指针 也可写为 int const* p = a;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//*p = 5; 报错，无法通过指针更改指向的内容</span></span><br><span class="line">p++;</span><br><span class="line"></span><br><span class="line">cout&lt;&lt;*p&lt;&lt;endl; <span class="comment">//输出 2</span></span><br></pre></td></tr></table></figure>
+<p><a id="pointerConstant"></a></p>
+<h3 id="指针常量">指针常量</h3>
+<blockquote>
+<p>也叫常指针</p>
+</blockquote>
+<p>指针常量指的是指针作为一个常量，即指针的值无法更改，但指针指向的内容可以通过指针更改。示例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">2</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line"><span class="type">int</span>* <span class="type">const</span> p = a;</span><br><span class="line"></span><br><span class="line">*p = <span class="number">5</span>;</span><br><span class="line">cout&lt;&lt;a[<span class="number">1</span>]&lt;&lt;endl; <span class="comment">//输出</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//p++; 报错，指针的值无法更改</span></span><br></pre></td></tr></table></figure>
+<h3 id="const同时修饰指针和常量">const同时修饰指针和常量</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">2</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span>* <span class="type">const</span> p = a;</span><br><span class="line"><span class="comment">//*p = 5;</span></span><br><span class="line"><span class="comment">//p++;</span></span><br><span class="line"><span class="comment">//均报错，既不能更改指针的值，也不能通过指针更改指向的内容。</span></span><br></pre></td></tr></table></figure>
+<h2 id="浅拷贝和深拷贝">浅拷贝和深拷贝</h2>
+<p>对于基本类型的数据以及简单的对象，它们之间的拷贝非常简单，就是按位复制内存。</p>
+<p>对于简单的类，默认的拷贝构造函数一般就够用了，他会以浅拷贝的方式去构造，我们也没有必要再显式地定义一个功能类似的拷贝构造函数。</p>
+<p>但类有<span style="background:#FF9999;">动态分配的内存</span>、<span style="background:#FF9999;">指向其他数据的指针</span>等资源时，浅拷贝就无法胜任了，这时需要显式的定义拷贝构造函数，以完整的拷贝对象的所有数据。</p>
+<p>举一个简单的例子：</p>
+<p>假设我们自定义一个变长数组</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">A</span>(<span class="type">int</span> n); <span class="comment">//构造函数</span></span><br><span class="line">        <span class="built_in">A</span>(<span class="type">const</span> A &amp;a); <span class="comment">//拷贝构造函数</span></span><br><span class="line">        ~<span class="built_in">A</span>(); <span class="comment">//析构函数</span></span><br><span class="line">        <span class="type">int</span>&amp; <span class="keyword">operator</span>[](<span class="type">int</span> i)&#123;<span class="keyword">return</span> *(A_p+i);&#125; <span class="comment">//重写[]操作符使其支持读写</span></span><br><span class="line">        <span class="function"><span class="type">int</span> <span class="title">length</span><span class="params">()</span> <span class="type">const</span> </span>&#123;<span class="keyword">return</span> A_len;&#125; <span class="comment">//获得数组长度</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="type">int</span> A_len; <span class="comment">//数组长度</span></span><br><span class="line">        <span class="type">int</span>* A_p; <span class="comment">//数组指针</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">A::<span class="built_in">A</span>(<span class="type">int</span> n)&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;A_len = n;</span><br><span class="line">    <span class="keyword">this</span>-&gt;A_p = (<span class="type">int</span>*)<span class="built_in">calloc</span>(A_len, <span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">A::<span class="built_in">A</span>(<span class="type">const</span> A &amp;a)&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;A_len = a.A_len;</span><br><span class="line">    <span class="keyword">this</span>-&gt;A_p = (<span class="type">int</span>*)<span class="built_in">calloc</span>(<span class="keyword">this</span>-&gt;A_len, <span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">    <span class="built_in">memcpy</span>(<span class="keyword">this</span>-&gt;A_p, a.A_p, <span class="keyword">this</span>-&gt;A_len*<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">A::~<span class="built_in">A</span>()&#123;</span><br><span class="line">    <span class="built_in">free</span>(A_p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再来写一个打印函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">printA</span><span class="params">(<span class="type">const</span> A&amp; arr)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> n = arr.<span class="built_in">length</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">        cout&lt;&lt;arr[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>main</code>函数中测试一下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">A <span class="title">arr1</span><span class="params">(<span class="number">10</span>)</span></span>; <span class="comment">//调用构造函数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; arr1.<span class="built_in">length</span>(); i++)&#123;</span><br><span class="line">        arr1[i] = i; <span class="comment">//循环赋值</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function">A <span class="title">arr2</span><span class="params">(arr1)</span></span>; <span class="comment">//调用拷贝构造函数</span></span><br><span class="line">    arr2[<span class="number">2</span>] = <span class="number">100</span>; <span class="comment">//改一个值</span></span><br><span class="line">    </span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;arr1: &quot;</span>;</span><br><span class="line">    <span class="built_in">printA</span>(arr1);</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;arr2: &quot;</span>;</span><br><span class="line">    <span class="built_in">printA</span>(arr2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr1: 0 1 2 3 4 5 6 7 8 9 </span><br><span class="line">arr2: 0 1 100 3 4 5 6 7 8 9 </span><br></pre></td></tr></table></figure>
+<p>可以看出，我们显式的重构了拷贝构造函数，它<span style="background:#FF9999;">除了会将原有对象的所有成员变量拷贝给新对象，还会为新对象再分配一块内存，并将原有对象所持有的内存也拷贝过来</span>。这样做的结果是，<span style="background:#FF9999;">原有对象和新对象所持有的动态内存是相互独立的</span>，更改一个对象的数据不会影响另外一个对象。</p>
+<p>接下来我们将重构的拷贝构造函数注释掉，使A类使用默认的拷贝构造函数，不改变<code>main</code>函数，重新编译一下，结果为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr1: 0 1 100 3 4 5 6 7 8 9 </span><br><span class="line">arr2: 0 1 100 3 4 5 6 7 8 9 </span><br></pre></td></tr></table></figure>
+<p>可以看到更改arr2的同时arr1也发生了改变。不仅如此，在编译时会在析构函数中中断，这是由于浅拷贝导致的arr1和arr2的数组指针指向的是同一个内存空间，在arr1和arr2生命周期结束后系统分别调用了其析构函数，出现了指针悬挂的问题。也可以理解为上文<a href="#functionParametersAndPointers">野指针产生原因</a>的第2点，即arr1的指针指向的数组所在的内存空间被释放，但此时仍有另一个指针指向该空间，成了野指针。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/20/144706.png" alt=""></p>
+<p>当然我们也可以换更直观的方式，在注释掉重构的拷贝构造函数后，修改一下<code>main</code>函数，在打印完<code>arr1</code>后手动调用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">A <span class="title">arr1</span><span class="params">(<span class="number">10</span>)</span></span>; <span class="comment">//调用构造函数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; arr1.<span class="built_in">length</span>(); i++)&#123;</span><br><span class="line">        arr1[i] = i; <span class="comment">//循环赋值</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function">A <span class="title">arr2</span><span class="params">(arr1)</span></span>; <span class="comment">//调用拷贝构造函数</span></span><br><span class="line">    arr2[<span class="number">2</span>] = <span class="number">100</span>; <span class="comment">//改一个值</span></span><br><span class="line">    </span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;arr1: &quot;</span>;</span><br><span class="line">    <span class="built_in">printA</span>(arr1);</span><br><span class="line">    arr1.~<span class="built_in">A</span>(); <span class="comment">//手动调用析构函数</span></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;arr2: &quot;</span>;</span><br><span class="line">    <span class="built_in">printA</span>(arr2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr1: 0 1 2 3 4 5 6 7 8 9 </span><br><span class="line">arr2: 14556832 0 14549328 0 -17891602 -17891602 -17891602 -17891602 -17891602 -17891602</span><br></pre></td></tr></table></figure>
+<h2 id="引用">引用</h2>
+<p>虽然标题叫指针和引用，怎么没有一点引用的知识呢？这不就来了吗。</p>
+<h3 id="引用的概述">引用的概述</h3>
+<p>引用引入了对象的一个同义词。定义引用的表示方法与定义指针相似，只是用&amp;代替了*。引用（reference）是c++对c语言的重要扩充。引用就是某一变量（目标）的一个别名，对引用的操作与对变量直接操作完全一样。其格式为：类型 &amp;引用变量名 = 已定义过的变量名。</p>
+<p>引用的特点：</p>
+<ol>
+<li>
+<p>一个变量可取多个别名。</p>
+</li>
+<li>
+<p>引用必须初始化。</p>
+</li>
+<li>
+<p>引用只能在初始化的时候引用一次 ，不能更改为转而引用其他变量。</p>
+</li>
+</ol>
+<h3 id="引用的应用">引用的应用</h3>
+<h4 id="引用做函数参数">引用做函数参数</h4>
+<p>这个部分和上文的<a href="#functionParametersAndPointers">指针做函数参数</a>类似，同样可以通过形参改变实参。</p>
+<h4 id="引用做函数返回值">引用做函数返回值</h4>
+<p>当函数返回值作为<span style="background:#FF9999;">左值</span> 那么函数的返回值类型必须是<span style="background:#FF9999;">引用</span>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span>&amp; <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> num = <span class="number">10</span>;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;num = &quot;</span>&lt;&lt;num&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">test</span>() = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">test</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出结果</span></span><br><span class="line"><span class="comment">// num = 10</span></span><br><span class="line"><span class="comment">// num = 20</span></span><br></pre></td></tr></table></figure>
+<h3 id="引用的本质">引用的本质</h3>
+<p>c++编译器在编译过程中使用<a href="#pointerConstant">指针常量</a>作为引用的内部实现，因此引用所占用的空间大小与指针相同，只是这个过程是编译器内部实现，用户不可见。</p>
+<p>引用可以理解为指针常量的封装。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> data = <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> &amp;a = data;<span class="comment">//a就是data的别名</span></span><br><span class="line"><span class="comment">//编译器内存转换：int * const a = &amp;data;</span></span><br></pre></td></tr></table></figure>
+<p>这也是为什么引用的特点：</p>
+<ul>
+<li>必须初始化（因为指针常量必须初始化）</li>
+<li>只能在初始化时引用一次，不能改为应用其他变量（因为指针常量的值不能更改）</li>
+<li>可以通过引用修改元素的值（因为指针常量可以更改指向的值）</li>
+</ul>
+<h3 id="常引用">常引用</h3>
+<blockquote>
+<p>我一直觉得C++中有些命名就是为了恶心你</p>
+</blockquote>
+<p>常引用就是加入<code>const</code>修饰的引用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> data = <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> &amp;a = data;</span><br><span class="line"><span class="comment">// 编译器内存转换：int * const a = &amp;data;</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> &amp;b = data;</span><br><span class="line"><span class="comment">// 编译器内存转换：const int* const b = &amp;data;</span></span><br></pre></td></tr></table></figure>
+<p>结合引用的本质，实际上就是<code>const</code>既修饰常量又修饰指针，其值不可更改，指向的值也不可更改，多用于只读的函数中传递参数。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">钛合金杨桃</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yangtao.fun/posts/22647/">https://yangtao.fun/posts/22647/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yangtao.fun" target="_blank">杨杨杨杨杨桃</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a><a class="post-meta__tags" href="/tags/%E6%8C%87%E9%92%88/">指针</a><a class="post-meta__tags" href="/tags/%E5%BC%95%E7%94%A8/">引用</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/08/182005.gif" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/reward/wechat.png" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/reward/wechat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/reward/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/reward/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/47718/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/10/144517.gif" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">智能指针</div></div></a></div><div class="next-post pull-right"><a href="/posts/30793/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/08/200118.gif" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">const，define，typedef的区别和联系</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/47718/" title="智能指针"><img class="cover" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/10/144517.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-22</div><div class="title">智能指针</div></div></a></div><div><a href="/posts/56391/" title="C++STL(一) string"><img class="cover" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/10/144529.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-11</div><div class="title">C++STL(一) string</div></div></a></div><div><a href="/posts/42322/" title="C++显示类型转换"><img class="cover" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/08/182005.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-14</div><div class="title">C++显示类型转换</div></div></a></div><div><a href="/posts/27145/" title="C++模板(一) 函数模板和类模板"><img class="cover" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/08/203757.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-24</div><div class="title">C++模板(一) 函数模板和类模板</div></div></a></div><div><a href="/posts/2188/" title="C++排序"><img class="cover" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/08/182005.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-08</div><div class="title">C++排序</div></div></a></div><div><a href="/posts/30793/" title="const，define，typedef的区别和联系"><img class="cover" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/08/200118.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-19</div><div class="title">const，define，typedef的区别和联系</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC81NjAyMy8zMjQ4Ng"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8C%87%E9%92%88"><span class="toc-number">1.</span> <span class="toc-text">什么是指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">2.</span> <span class="toc-text">变量在内存中的存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">指针的基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%8F%98%E9%87%8F%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.</span> <span class="toc-text">指针变量的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%8F%98%E9%87%8F%E7%9A%84%E8%A7%A3%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text">指针变量的解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%9A%84%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97"><span class="toc-number">3.3.</span> <span class="toc-text">指针的算数运算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88%E5%92%8C%E9%87%8E%E6%8C%87%E9%92%88"><span class="toc-number">4.</span> <span class="toc-text">空指针和野指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88"><span class="toc-number">4.1.</span> <span class="toc-text">空指针</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8F"><span class="toc-number">4.1.1.</span> <span class="toc-text">空指针常量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88-2"><span class="toc-number">4.1.2.</span> <span class="toc-text">空指针</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88%E6%8C%87%E5%90%91%E5%86%85%E5%AD%98%E7%9A%84%E4%BB%80%E4%B9%88%E5%9C%B0%E6%96%B9"><span class="toc-number">4.1.3.</span> <span class="toc-text">空指针指向内存的什么地方</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8E%E6%8C%87%E9%92%88"><span class="toc-number">4.2.</span> <span class="toc-text">野指针</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8E%E6%8C%87%E9%92%88%E7%9A%84%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0"><span class="toc-number">4.2.1.</span> <span class="toc-text">野指针的产生原因</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%92%8C%E6%8C%87%E9%92%88"><span class="toc-number">5.</span> <span class="toc-text">函数和指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E5%92%8C%E6%8C%87%E9%92%88"><span class="toc-number">5.1.</span> <span class="toc-text">函数的参数和指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E6%8C%87%E9%92%88"><span class="toc-number">5.2.</span> <span class="toc-text">函数的返回值和指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E6%8C%87%E9%92%88"><span class="toc-number">5.3.</span> <span class="toc-text">函数的指针</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#const%E5%92%8C%E6%8C%87%E9%92%88"><span class="toc-number">6.</span> <span class="toc-text">const和指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88"><span class="toc-number">6.1.</span> <span class="toc-text">常量指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8F"><span class="toc-number">6.2.</span> <span class="toc-text">指针常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#const%E5%90%8C%E6%97%B6%E4%BF%AE%E9%A5%B0%E6%8C%87%E9%92%88%E5%92%8C%E5%B8%B8%E9%87%8F"><span class="toc-number">6.3.</span> <span class="toc-text">const同时修饰指针和常量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="toc-number">7.</span> <span class="toc-text">浅拷贝和深拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">8.</span> <span class="toc-text">引用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E6%A6%82%E8%BF%B0"><span class="toc-number">8.1.</span> <span class="toc-text">引用的概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">8.2.</span> <span class="toc-text">引用的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E5%81%9A%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="toc-number">8.2.1.</span> <span class="toc-text">引用做函数参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E5%81%9A%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">8.2.2.</span> <span class="toc-text">引用做函数返回值</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="toc-number">8.3.</span> <span class="toc-text">引用的本质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E5%BC%95%E7%94%A8"><span class="toc-number">8.4.</span> <span class="toc-text">常引用</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 钛合金杨桃</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function loadLivere () {
+  if (typeof LivereTower === 'object') {
+    window.LivereTower.init()
+  }
+  else {
+    (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  }
+}
+
+if ('Livere' === 'Livere' || !false) {
+  if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+  else loadLivere()
+}
+else {
+  function loadOtherComment () {
+    loadLivere()
+  }
+}</script></div><script src="/css./style.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="富强,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

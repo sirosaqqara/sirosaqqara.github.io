@@ -1,0 +1,421 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>简单攀爬系统实现 | 杨杨杨杨杨桃</title><meta name="keywords" content="UE4,蓝图,教程,游戏开发"><meta name="author" content="钛合金杨桃"><meta name="copyright" content="钛合金杨桃"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="纯蓝图实现简单的攀爬系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单攀爬系统实现">
+<meta property="og:url" content="http://yangtao.fun/posts/43756/index.html">
+<meta property="og:site_name" content="杨杨杨杨杨桃">
+<meta property="og:description" content="纯蓝图实现简单的攀爬系统">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/Logos/UE_Anim.gif">
+<meta property="article:published_time" content="2022-05-17T05:57:31.000Z">
+<meta property="article:modified_time" content="2022-05-17T07:54:02.603Z">
+<meta property="article:author" content="钛合金杨桃">
+<meta property="article:tag" content="UE4">
+<meta property="article:tag" content="蓝图">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="游戏开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/Logos/UE_Anim.gif"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/avatar/carambola.jpg"><link rel="canonical" href="http://yangtao.fun/posts/43756/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 钛合金杨桃","link":"链接: ","source":"来源: 杨杨杨杨杨桃","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '简单攀爬系统实现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-17 15:54:02'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/showbb.css"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/modify.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="杨杨杨杨杨桃" type="application/rss+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/avatar/carambola.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主主主主主页</span></a></div><div class="menus_item"><a class="site-page" href="/bb/"><i class="fa-fw fas fa-bomb"></i><span> 碎碎碎碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归归归归归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标标标标标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分分分分分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链链链链链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/17/154934.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">杨杨杨杨杨桃</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主主主主主页</span></a></div><div class="menus_item"><a class="site-page" href="/bb/"><i class="fa-fw fas fa-bomb"></i><span> 碎碎碎碎碎念</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归归归归归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标标标标标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分分分分分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链链链链链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">简单攀爬系统实现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-17T05:57:31.000Z" title="发表于 2022-05-17 13:57:31">2022-05-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-17T07:54:02.603Z" title="更新于 2022-05-17 15:54:02">2022-05-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="简单攀爬系统实现"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><blockquote>
+<p>本文主要总结UE4制作攀爬系统的主要过程，参考教程<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1yb4y1o7BY">【永昼UE】【技の屋】进阶攀爬系统（UE5示例）</a>，运动系统的额外知识会另开专题</p>
+</blockquote>
+<h2 id="准备工作">准备工作</h2>
+<h3 id="从第三人称模板新建项目">从第三人称模板新建项目</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/093247.png" alt="第三人称模板"></p>
+<h3 id="删掉多余的部分">删掉多余的部分</h3>
+<h4 id="删除多余输入映射">删除多余输入映射</h4>
+<p>在项目设置中删除VR输入和移动端输入映射</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/092422.png" alt="更改项目设置"></p>
+<h4 id="删除多余蓝图">删除多余蓝图</h4>
+<p>在角色蓝图中删除VR输入和移动端输入</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/100348.gif" alt="删除多余蓝图"></p>
+<h4 id="删除并调整地图">删除并调整地图</h4>
+<p>使用第三人称提供的默认地图，删掉多余的墙壁和平台，调大地图，创建几个几何体用来攀爬测试。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/105656.png" alt="调整第三人称的地图"></p>
+<h3 id="导入资源">导入资源</h3>
+<p>下载<a target="_blank" rel="noopener" href="https://wwi.lanzoup.com/ifzYo04qn4jc">动画素材资源</a>并导入项目，注意需要绑定骨骼。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/105436.png" alt="导入动画资源"></p>
+<h3 id="修改默认设置">修改默认设置</h3>
+<h4 id="设置飞行模式">设置飞行模式</h4>
+<p>打开角色蓝图，选中角色移动组件，在右侧的细节面板输入&quot;fly&quot;找到飞行相关的设置。</p>
+<p>攀爬实际上是利用角色移动模式的飞行模式实现的，设置“制动降速飞行”为2048，勾选“可飞行”选项。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/103440.png" alt="设置飞行模式"></p>
+<h4 id="设置根运动">设置根运动</h4>
+<p>动画资源中有一些使用了根运动，在内容面板选中动画资源中后缀为“RM”的几个动画序列，右键选择“资产操作”-&gt;“通过属性矩阵进行批量编辑”打开属性矩阵。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/111038.png" alt="选中动画序列右键"></p>
+<p>在右侧的面板中展开“RootMotion”选项，勾选“启用根运动”。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/111234.png" alt="启用根运动"></p>
+<h2 id="正式开始">正式开始</h2>
+<h3 id="设置攀爬的动作">设置攀爬的动作</h3>
+<h4 id="创建动画混合空间">创建动画混合空间</h4>
+<p>在动画目录下创建一个动画混合空间并打开</p>
+<p>再左侧的“资产详情”面板设置横纵轴。水平坐标命名为“deriction”，最小最大轴值分别设为-180和180，网格分区设为8。垂直坐标命名为”climb speed“，最小最大轴值分别设为0和200，网格分区设为4。</p>
+<p>水平坐标表示攀爬的移动方向，通过-180到180的浮点数来表示，分区为8表示8个方向。垂直坐标表示攀爬的速度</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/111757.png" alt=""></p>
+<p>在打开右下角的资产浏览器，将对应的动画序列拖入坐标轴并保存。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/151053.png" alt="放置好的动画序列"></p>
+<h4 id="添加状态切换">添加状态切换</h4>
+<p>状态切换在动画蓝图中写。打开动画蓝图，进入默认的状态机里的”Idle/Run“状态，这个预先写好的状态是用于从静止到奔跑的转换，使用的是混合空间1D</p>
+<blockquote>
+<p>没有加1D的混合空间是二维的，接收两个坐标轴上的坐标输入，1D只有一个坐标轴</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/151839.png" alt="Idel/Run状态"></p>
+<p>为了简单起见，我们就把攀爬的状态写在这里。</p>
+<p>添加一个混合空间节点，注意是自己之前建的那个攀爬的混合空间。其接受两个浮点型输入（即上文的横纵坐标）并输出一个状态</p>
+<p>由于每个状态只有一个状态可以输出，而混合空间（无论是1D还是2D）均会返回状态，故需要使用混合列表判断输出的是哪个状态。</p>
+<p>添加一个根据布尔值的混合列表，其接受两个状态输入分别为”真状态“和“假状态”，当布尔值为真时，输出“真状态”，当布尔值为假时，输出“假状态”。</p>
+<p>新建一个布尔值类型的变量，命名为”is Climbing“表示玩家是否处于攀爬状态。将&quot;is Climbing&quot;连至混合列表的布尔值判断，攀爬混合空间的状态连至“真状态”，奔跑混合空间的状态连至“假状态”，混合列表的输出连至最后的输出状态。</p>
+<p>新建一个浮点型变量，命名为“Direction“，表示攀爬时移动的方向。将对应的变量连至攀爬混合空间的输入。</p>
+<p>此时攀爬的基本运动的动画部分就解决了，后续会通过蓝图接口传递“is Climbing&quot;和”Direction&quot;两个变量。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/153701.png" alt=""></p>
+<p><a id="INT"></a></p>
+<h4 id="创建蓝图接口">创建蓝图接口</h4>
+<p>创建一个蓝图接口，命名为BPI_Anim，这个蓝图接口就是沟通角色蓝图和动画蓝图的工具，在蓝图接口中新建两个函数，一个函数命名为INT_Direction，添加一个浮点型输入参数Direction，另一个命名为INT_ChangeClimbingPoseture，添加一个布尔型输入参数is_Climbing，对应上文。</p>
+<h3 id="实现攀爬的逻辑">实现攀爬的逻辑</h3>
+<p><a id="coordinate"></a></p>
+<h4 id="坐标系">坐标系</h4>
+<p>在实现攀爬之前，我们需要先确定一件事，就是攀爬状态下坐标系的变化。正常情况下，角色站立在地面上，受到重力的作用，其反方向就是角色的上方，角色面朝的方向就是角色的前方，而UE4是左手坐标系，将四指从上方握到前方，大拇指指向的方向就是角色的右方。而在攀爬状态下，角色应该是贴合在攀爬面上的，这也就导致了角色攀爬时的坐标系和正常情况下的坐标系并不相同。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/162408.png" alt="攀爬时的坐标系"></p>
+<p>以上图为例，这面墙是倾斜的，那么角色攀爬在这个墙上时，依然需要贴着墙壁，那么此时角色的坐标系其实是跟墙面的法线有关的。墙面的法线方向的反方向是角色的前方，平行于墙面斜向上的方向是角色的上方，同样根据左手系可以确定右方。</p>
+<p>在正常情况下，角色接收向前的输入开始前进后退，接收向右的输入开始左右移动，那么在攀爬时，就需要根据攀爬时的坐标系重新确定，接收前的输入开始上下移动，接收向右的输入开始左右移动。</p>
+<p>这一点需要通过改变蓝图中预置的MovementInput来实现。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/16/103009.png" alt="MovementInput"></p>
+<p>如上图所示，新建两个变量ClimbingUpDirection和ClimbingRightDirection。在输入后加一个判断，如果处于攀爬状态，则输入的方向由这两个变量来控制。</p>
+<p><a id="FindClimbingRotation"></a></p>
+<h4 id="确定攀爬方向">确定攀爬方向</h4>
+<p>综上所述，在攀爬时需要首先确定的就是攀爬的方向。在角色蓝图中新建一个函数，命名为FindClimbingRotation，同时新建两个向量变量，分别叫ObstacleLocation和ObstacleEndLocation。</p>
+<p>在函数中，使用ObstacleEndLocation减去ObstacleLocation，得到一个新的向量，将其标准化，显而易见这得到的就是向上的方向，再新建一个ObstacleNormal，在函数中将其反向，再标准化，这得到的就是向前的方向，通过向前的方向和向上的方向做叉积，再标准化，就会得到向右的方向。将向上的方向和向右的方向分别设置变量ClimbingUpDirection和ClimbingRightDirection存储起来，并且将三个单位化（标准化）的向量通过&quot;Make Rotation from Axes“结点创建Rotation并存储为Climbing Rotation。</p>
+<p>上面用到的ObstacleLocation，ObstacleEndLocation，ObstacleNormal是后面射线检测时得到并存储的，这里只需要当做已知值使用即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/15/101803.png" alt="确定攀爬方向"></p>
+<h4 id="Tick处理">Tick处理</h4>
+<p>由于攀爬和正常行走是同一级别的运动，所以需要通过tick来判断当前的运动状态，如果是在攀爬状态，则需确定攀爬方向便于移动，同时添加一个do once结点，开始时关闭，当处于攀爬状态且确定完攀爬方向时将do once重置，退出攀爬状态后执行do once退出攀爬状态。</p>
+<p>另一方面，如何确定攀爬状态？这就是需要在tick中处理的另一个部分了，这个部分也是攀爬系统的主要处理部分。在tick中我们使用sequence结点将该处理置于判断运动状态之后。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/15/142118.png" alt="tick处理"></p>
+<h4 id="Climbing-Tick">Climbing Tick</h4>
+<p>这里实现上文中的tick中需要用到的攀爬系统的主要处理过程。</p>
+<p>新建一个自定义事件，命名为Climbing Tick，并在tick处理后的sequence的Then 1中调用，如上图所示。</p>
+<p><a id="NotClimbableActors"></a></p>
+<p>游戏中肯定存在一些墙体和障碍物是可以攀爬，另一些则不可攀爬。在进行攀爬处理之前，需要将这些不可攀爬的Actor放到一起存储起来，新建一个Actor的数组，命名为NotClimbableActors。为简单起见，这里调用引擎提供的方法Get All Actors with Tag，将Tag设为 Not Climbable，并将返回值设置为NotClimbableActors。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/15/205659.png" alt="NotClimbableActors"></p>
+<blockquote>
+<p>官方文档中建议不要在Tick中使用该方法，这里只是简单起见。实际中请使用通道检测等其他方法。</p>
+</blockquote>
+<p>之后判断一下是否在攀爬状态，这里判断的目的是区分出正常移动状态和攀爬时的状态。在正常移动情况下，需要确定是否要进入攀爬状态，在攀爬状态情况下，由于地形可能有起伏，需要时刻确定当前的旋转和方向。这里只需要找到上文<a href="#FindClimbingRotation">FindClimbingRotation</a>中需要的ObstacleLocation，ObstacleEndLocation，ObstacleNormal三个变量存储起来即可。另外攀爬状态时可能会提前掉落或是登顶，这些都需要考虑。</p>
+<p>先来看简单的正常运动状态的逻辑</p>
+<h5 id="正常运动进入攀爬状态">正常运动进入攀爬状态</h5>
+<p>首先进行速度的限制，如果速度过小则不主动进入攀爬状态。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/15/205621.png" alt="速度过小不主动进入攀爬"></p>
+<p>进行射线检测，这里连线比较乱，所以新建了一个函数命名为ObstacleDetection，输入三个浮点数，分别表示速度标度，最短检测距离和最长检测距离。</p>
+<p><a id="FirstDetection_Running"></a></p>
+<p>获得角色的速度向量，将其标准化获得速度方向，同时获取速度大小并将速度大小按照速度标度在最短检测距离和最长检测距离中插值，获得实际检测距离。实际检测距离乘以速度方向即可得到检测射线。获得角色位置，将角色位置做为起点，角色位置加上检测射线作为终点进行通道射线检测。通道射线检测中忽略掉存储的<a href="#NotClimbableActors">NotClimbableActors</a>，之后将命中结果，命中的位置和命中的法线输出。</p>
+<p>若命中，则将命中位置保存为ObstacleLocation，命中法线保存为ObstacleNormal，未命中则不做处理。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/15/205522.png" alt="ObstacleDetection_Running"></p>
+<p>有了命中位置还不够，如果只是小土坡很有可能也会检测到，但大台阶小土坡显然无法进行攀爬，因为它们不够陡峭，所以还要判断障碍物是否足够陡峭。这个比较简单，将前面输出的法线在纵坐标上减1，再判断新的向量的模是否大于一即可，这个可以通过一个简单的图来表示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/15/205334.png" alt="图示判断墙面是否陡峭"></p>
+<p>如果障碍物不够陡峭则不进行后续操作，如果足够陡峭，则进行第二次检测。别忘了，第一次检测得到了ObstacleLocation和ObstacleNormal还有ObstacleEndLocation没有获得，这也是第二次检测的目的。当然这里还有另一层含义，ObstacleLocation到ObstacleEndLocation的距离大体上可以看做障碍物的高度，如果障碍物不够高，比如还没角色高，那么此时需要进行的是翻越或者跨过等动作而不是攀爬。</p>
+<p>第二次检测射线的起点位置仍然是角色位置，终点位置需要我们计算一下，这里创建了一个纯函数。纯函数意味着这个函数只通过计算等处理即可完成，不需要执行，类似一个公式一样。纯函数的内容如下，主要思想是将角色的向前向量（同之前一样）向上旋转45°，乘以距离加上起点位置就能得到终点位置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/15/205441.png" alt="计算第二次检测的终点位置"></p>
+<p>第二次检测后将检测结果和命中位置返回。未命中不作处理，命中则保存命中位置为ObstacleEndLocation。</p>
+<p><a id="ChangeMoveModetoClimb"></a></p>
+<p>若第二次命中，则说明前方有障碍物且可攀爬，主动进入攀爬状态，设置isClimbing为True。另外，前面提到过攀爬状态实质上是飞行模式，调用引擎提供的SetMovementMode方法，设置运动状态为飞行。接着，设置最大飞行速度，也就是攀爬状态的速度，另外调用setOrientRotationtoMovetment方法，修改OrientRotationMovement属性为false。再然后调用之前创建的<a href="#INT">INT_ChangeClimbingPosture</a>接口函数，将is_Climbing传递给动画蓝图，方便调整动画状态。这些流程我将其放入函数ChangeMoveModetoClimb中，便于整理和使用。其实转换到攀爬状态还需要调整两个设置，这个放到下面来说。</p>
+<blockquote>
+<p>简单说明下OrientRotationtoMovement是角色移动组件中的一个属性，其为true则表示当有移动输入时，移动方向会转向旋转的输入方向，即静止不动时，转动鼠标时角色无反应，但在移动过程中，转动鼠标，角色会朝向鼠标输入的旋转方向移动，在攀爬过程中，这个属性不需要，故将其设为false。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/15/213324.png" alt="ChangeMoveModetoClimb"></p>
+<p>在进入攀爬状态的最后，为了让效果更加流畅，加入了一个跳跃上墙的动作，这里自然是用蒙太奇来实现的。将预置的跳跃动画创建蒙太奇，此时蒙太奇的插槽为默认插槽。</p>
+<p>为了让蒙太奇可以播放，将动画蓝图的状态机的默认状态机后添加一个默认的插槽。</p>
+<p>接着转回角色蓝图，添加一个新事件JumptoClimb，在SetMovementMode之后调用。JumptoClimb事件中先播放蒙太奇，接着将角色的旋转调整为计算出的旋转，对，就是那个在<a href="#FindClimbingRotation">FindClimbingRotation</a>中计算出的旋转。</p>
+<h5 id="攀爬状态中的处理">攀爬状态中的处理</h5>
+<p>先来说大体逻辑，攀爬状态中的处理与正常状态进入攀爬状态一样，都是需要两次检测，但检测的目的并不完全一致，这个稍后细说。两次检测都成功则同样记录那三个变量ObstacleLocation，ObstacleEndLocation，ObstacleNormal然后进行一些处理，任意检测不成功就要转换到正常状态。</p>
+<p>第一次检测，同样是起点角色位置，终点角色位置+一段向前的向量，不过这次不需要速度的判断，向前向量设置为定长即可，将命中结果，命中位置和法线输出。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/16/091952.png" alt="ObstacleDetection_Climbing"></p>
+<p>这里有一个小技巧，ObstacleNormal，也就是法线方向，在<a href="#FirstDetection_Running">正常状态下第一次检测</a>到就直接存储了，因为只需要一次值即可。而在攀爬状态中如果持续运动，会持续产生法线，而攀爬过程中可能会受到地形起伏的影响，故可以利用插值的方式使得地形起伏的变化过渡地更加自然。这里使用了VInterp to Constant结点，将上个ObstacleNormal当做Current，新检测到的ObstacleNormal当做target，通过每次tick的时间进行插值，结果保存到ObstacleNormal用于下次的插值。</p>
+<blockquote>
+<p>VInterp to Constant是UE4众多插值结点中的一个，V表示插值的数据是向量，Interp to就是插值的意思，Constant表示插值是线性的，不加Constant则表示非线性，起点和终点的过渡会比较平滑。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/16/093056.png" alt="VInterp to Constant"></p>
+<p>第一次检测不成功则说明没有地方可以攀爬了，转换为正常状态即可，这个部分放到后面写。</p>
+<p>第一次检测完后进行第二次检测，同样是要判断障碍物是否够高，够高才能继续攀爬，不够高说明爬到顶部应该登陆了。与正常状态下的第二次检测时一样的，输出命中结果和位置，存储命中的位置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/16/094457.png" alt="SecondDetection_Climbing"></p>
+<p>如果第二次检测命中，则应当继续攀爬，此时需要进行一些设置。首先是攀爬方向，需要在动画蓝图中调用。这里使用RotationFromXVector，从X方向创建一个旋转值。</p>
+<p>这里打断一下，可能前面的一些铺垫操作你有些模糊了，前面实现攀爬逻辑中一开始我们就对<a href="#coordinate">攀爬时的坐标系</a>进行了调整，将那张图再放一下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/13/162408.png" alt="攀爬时的坐标系"></p>
+<p>RotationFromXVector结点的意思是rotation会跟随XVector，这就导致XVector是常量的roll是无效的，而pitch和yaw是有效的。这里将输入的Vector和输出的rotation均拆分开，将GetMoveForward和GetMoveRight分别传入XVector和YVector，此时蓝色的向量其实是XVector，红色的向量其实是YVector，再将ZVector设为0，则只会产生XVector和YVector的变化，这其实就是一个yaw旋转。</p>
+<p>拆分开的rotation将有效的yaw设置为ClimbingRotation，攀爬时的方向就确定好了。接着调用之前创建的<a href="#INT">INT_Direction</a>接口函数，将ClimbingRotation传递给动画蓝图，随后设置角色的旋转为<a href="#FindClimbingRotation">FindClimbingRotation</a>计算出的Rotation。</p>
+<p>最后，给角色移动组件加一个压向障碍物的力，这个力的作用是让角色能够紧贴障碍物。正常状态下，角色受重力影响会一直贴在地面上行走，但攀爬状态（实质上是飞行模式）不受重力这样的外力影响，如果遇到起伏的地形，很有可能会产生角色浮空的现象，可以从下图直观看到。</p>
+<p><img src="https://s1.ax1x.com/2022/05/16/OhC8US.gif" alt="这图压了好久，凑活看吧"></p>
+<p>虽然tick一直在计算Rotation但角色实际上还是一段一段线段在运动，导致朝向障碍物的距离（图中粉紫色的线，其实是检测射线）越来越大。最直接的办法就是给角色一个外力，让角色能够一直保持紧贴障碍物。</p>
+<p>以上这些操作我也将他们放到了一个函数中让蓝图更整洁，具体如下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/16/211810.png" alt="ClimbingSetting"></p>
+<p>两次检测都成功的处理介绍完了，那失败的呢？两次检测失败的情况是不一样的，先来说第二次检测未命中的情况：</p>
+<p>第二次检测未命中说明障碍物不够高了，也就是说当前角色仍然在障碍物上，不过马上就要越过障碍物了，那么此时的处理就是让角色登陆。</p>
+<p>登陆要分几步来处理。首先是检查是否有足够的空间来登陆，这里使用胶囊体检测来实现，胶囊体检测和射线检测类似，只不过起点和终点都是胶囊体，中间仍是一条线段，当线段或者胶囊体产生命中Hit Result就会为真。具体如下，新建一个函数CheckSpaceforLanding，在函数中首先获得角色位置和向前向量，角色位置向上平移一段距离Height作为起点位置，起点位置向前一段距离Distance作为终点距离调用胶囊体检测。这里的Height和Distance我作为了函数传入的参数。最后输出胶囊体检测的命中结果和终点位置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/17/084929.png" alt="胶囊体检测"></p>
+<p>胶囊体的半高默认是96，要想角色可以登陆则至少起点位置应在角色位置上方192的位置，考虑到此时胶囊体并不是完全在障碍物的上沿，那么这个距离还应更大一点，这里我设置的是200，即Height为200。然后就是向前的距离Distance，这个距离是用来判断是否有地方让角色登陆，后续检测也会用到。这个变量不能太大，太大会让角色登陆后向前位移很多，也不能太小，太小很有可能角色登陆后站不下就又掉下来了，这里我设置的是50。</p>
+<p>跟前面的检测不同，这次的检测只有未命中才说明有足够的位置让角色登陆，这也是为什么需要终点位置。当检测出现命中时，说明要么空间太狭窄，要么登陆的路径上仍然有阻挡（这两种情况地形都很奇怪）而无法登陆。当然此时角色仍然在攀爬状态，可以选择让角色继续留在原地不进行任何操作，也可以像我一样，直接让角色退出攀爬状态。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/17/085054.png" alt="CheckSpaceforLanding"></p>
+<p>紧接着是第二次检测，主要目的是找到角色的落脚点，故直接用刚刚得到的终点位置做起点，将他再向下Height距离的位置作为终点进行射线检测，如果成功命中则说明此时角色是可以登上去的，而未命中则说明这个障碍太薄了。检测结束后输出命中结果和命中位置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/17/092525.png" alt="登陆第二次检测"></p>
+<p>如果角色可以登陆，那么接下来有这么几个操作：</p>
+<ul>
+<li>播放登陆的蒙太奇</li>
+<li>将角色位置移动到登陆的位置</li>
+<li>改变角色的运动状态和其他细节调整</li>
+</ul>
+<p>首先是最简单的蒙太奇，直接在动画序列中找到登陆的那个动画序列创建蒙太奇，再在蓝图这里调用即可。</p>
+<p>然后是将角色位置移动到登陆的位置，使用MoveComponentTo结点。上面的检测得到了命中位置，要注意这个位置不是登陆的位置。MoveComponentTo传入的目标位置是胶囊体中心的位置，所以应该将命中位置Z坐标增加一个半高96再传入。</p>
+<p>最后是改变运动状态和其他细节的调整。改变运动状态这里类似前面的<a href="#ChangeMoveModetoClimb">ChangeMoveModetoClimb</a>，创建一个函数命名为ChangeMoveModetoWalk，里面的结点不变，不过要将一些属性反一下。设置isClimbing为假，设置MovementMode为行走，设置OrientRotationtoMovement为真，最后调用<a href="#INT">接口函数</a>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/17/094306.png" alt="ChangeMoveModetoWalk"></p>
+<p>光改变运动状态是不够的，如果角色由一个斜面的障碍物登顶，还需要更改旋转使得登陆后能恢复到直立状态。这里使用的是通过时间轴对旋转进行插值。创建一个时间轴，长度为0.2，0处打关键帧值为0，1处打关键帧值为1。关键帧插值设为自动使过渡更平滑。由于需要角色由原来的旋转过渡到直立，故需要roll和pitch均过渡到0，而yaw不变。添加一个Rotator的lerp结点，获得角色的旋转赋与A，再获得角色的旋转的yaw值赋予B，roll和ptich均默认为0，Alpha则为时间轴输出的参数。新建一个SetActorRotation的结点，将插值的结果作为NewRotation传入即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/17/101338.png" alt="调整旋转"></p>
+<p>上图中除了改变运动状态和调整旋转外还有一个自定义事件EndClimbing，前文中检测失败（登陆的第一次检测是成功）退出攀爬状态都是直接调用这个事件。</p>
+<h5 id="控制结构">控制结构</h5>
+<p>正常运动进入攀爬状态和攀爬状态中的处理都写完了，在此之前，还需要一个控制结构来控制什么时候进行哪种情况的处理。最基本的就是判断是否在攀爬状态，如果是则进行攀爬中的处理，不是则进行正常运动的处理。注意，一旦正常运动进入攀爬状态，则正常运动的处理就不应该再进行了，等到开始进行攀爬中的处理时，再重置正常运动的处理使得攀爬结束后可以重新进行正常运动到攀爬的转换。</p>
+<p>另外，攀爬中的处理使用了一个门来控制，在正常运动进入攀爬状态的最后打开，在退出攀爬运动时关闭。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/05/17/102416.png" alt="控制结构"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">钛合金杨桃</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yangtao.fun/posts/43756/">http://yangtao.fun/posts/43756/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yangtao.fun" target="_blank">杨杨杨杨杨桃</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/UE4/">UE4</a><a class="post-meta__tags" href="/tags/%E8%93%9D%E5%9B%BE/">蓝图</a><a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">教程</a><a class="post-meta__tags" href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/Logos/UE_Anim.gif" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/reward/wechat.png" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/reward/wechat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/reward/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/reward/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/25302/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/sirosaqqara/picHosting/img/2022/04/10/144529.gif" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">不溺于暖阳，不惧于狂风</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC81NjAyMy8zMjQ4Ng"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E7%AC%AC%E4%B8%89%E4%BA%BA%E7%A7%B0%E6%A8%A1%E6%9D%BF%E6%96%B0%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.1.</span> <span class="toc-text">从第三人称模板新建项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E6%8E%89%E5%A4%9A%E4%BD%99%E7%9A%84%E9%83%A8%E5%88%86"><span class="toc-number">1.2.</span> <span class="toc-text">删掉多余的部分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%A4%9A%E4%BD%99%E8%BE%93%E5%85%A5%E6%98%A0%E5%B0%84"><span class="toc-number">1.2.1.</span> <span class="toc-text">删除多余输入映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%A4%9A%E4%BD%99%E8%93%9D%E5%9B%BE"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除多余蓝图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%B9%B6%E8%B0%83%E6%95%B4%E5%9C%B0%E5%9B%BE"><span class="toc-number">1.2.3.</span> <span class="toc-text">删除并调整地图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E8%B5%84%E6%BA%90"><span class="toc-number">1.3.</span> <span class="toc-text">导入资源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.4.</span> <span class="toc-text">修改默认设置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E9%A3%9E%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.1.</span> <span class="toc-text">设置飞行模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%A0%B9%E8%BF%90%E5%8A%A8"><span class="toc-number">1.4.2.</span> <span class="toc-text">设置根运动</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%BC%8F%E5%BC%80%E5%A7%8B"><span class="toc-number">2.</span> <span class="toc-text">正式开始</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%94%80%E7%88%AC%E7%9A%84%E5%8A%A8%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">设置攀爬的动作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%8A%A8%E7%94%BB%E6%B7%B7%E5%90%88%E7%A9%BA%E9%97%B4"><span class="toc-number">2.1.1.</span> <span class="toc-text">创建动画混合空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E7%8A%B6%E6%80%81%E5%88%87%E6%8D%A2"><span class="toc-number">2.1.2.</span> <span class="toc-text">添加状态切换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%93%9D%E5%9B%BE%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.1.3.</span> <span class="toc-text">创建蓝图接口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%94%80%E7%88%AC%E7%9A%84%E9%80%BB%E8%BE%91"><span class="toc-number">2.2.</span> <span class="toc-text">实现攀爬的逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">2.2.1.</span> <span class="toc-text">坐标系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E6%94%80%E7%88%AC%E6%96%B9%E5%90%91"><span class="toc-number">2.2.2.</span> <span class="toc-text">确定攀爬方向</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tick%E5%A4%84%E7%90%86"><span class="toc-number">2.2.3.</span> <span class="toc-text">Tick处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Climbing-Tick"><span class="toc-number">2.2.4.</span> <span class="toc-text">Climbing Tick</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A3%E5%B8%B8%E8%BF%90%E5%8A%A8%E8%BF%9B%E5%85%A5%E6%94%80%E7%88%AC%E7%8A%B6%E6%80%81"><span class="toc-number">2.2.4.1.</span> <span class="toc-text">正常运动进入攀爬状态</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%94%80%E7%88%AC%E7%8A%B6%E6%80%81%E4%B8%AD%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-number">2.2.4.2.</span> <span class="toc-text">攀爬状态中的处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84"><span class="toc-number">2.2.4.3.</span> <span class="toc-text">控制结构</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 钛合金杨桃</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>function loadLivere () {
+  if (typeof LivereTower === 'object') {
+    window.LivereTower.init()
+  }
+  else {
+    (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  }
+}
+
+if ('Livere' === 'Livere' || !false) {
+  if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+  else loadLivere()
+}
+else {
+  function loadOtherComment () {
+    loadLivere()
+  }
+}</script></div><script src="/css./style.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="富强,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

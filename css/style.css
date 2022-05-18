@@ -128,7 +128,7 @@ min-width: 1.6rem;
 
 @font-face{
   font-family:'roboto' ;  /* 字体名自定义即可 */
-  src:url('../css/zk.ttf'); /* 字体文件路径 */
+  src:url('../css/ROBOTO-REGULAR.ttf'); /* 字体文件路径 */
   font-display: swap;
 }
 
@@ -200,25 +200,25 @@ main#content-inner {
 }
 p {
   font-family: 'roboto', sans-serif !important;
-  font-size: 16px;
+  font-size: 18px;
 }
 ol {
-  font-size: 16px;
+  font-size: 18px;
 }
 h2 {
   font-size: 24px;
 }
 h3 {
-  font-size: 20px;
+  font-size: 22px;
 }
 h4 {
-  font-size: 18px;
+  font-size: 20px;
 }
 #footer-wrap {
-  font-family: 'roboto', sans-serif;    /* 手机侧边栏 */
+  font-family: 'roboto', sans-serif;    /* 页脚 */
 }
 #sidebar #sidebar-menus.open {
-  font-family: 'roboto', sans-serif;    /* 页脚 */
+  font-family: 'roboto', sans-serif;    /* 手机侧边栏 */
 }
 
 

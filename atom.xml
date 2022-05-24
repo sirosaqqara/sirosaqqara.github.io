@@ -15,8 +15,33 @@
     <atom:link href="http://yangtao.fun/atom.xml" rel="self" type="application/rss+xml"/>
     
     <description>这里是钛合金杨桃的个人博客</description>
-    <pubDate>Tue, 17 May 2022 07:54:02 GMT</pubDate>
+    <pubDate>Tue, 24 May 2022 07:05:53 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>设计模式原则</title>
+      <link>http://yangtao.fun/posts/2060/</link>
+      <guid>http://yangtao.fun/posts/2060/</guid>
+      <pubDate>Tue, 24 May 2022 06:48:47 GMT</pubDate>
+      
+      <description>设计模式的七大原则，C++解释，全部实例均为原创的游戏相关的例子</description>
+      
+      
+      
+      
+      
+      <category domain="http://yangtao.fun/tags/C/">C++</category>
+      
+      <category domain="http://yangtao.fun/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</category>
+      
+      <category domain="http://yangtao.fun/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</category>
+      
+      <category domain="http://yangtao.fun/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">面向对象</category>
+      
+      
+      <comments>http://yangtao.fun/posts/2060/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>简单攀爬系统实现</title>

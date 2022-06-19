@@ -13,7 +13,7 @@ function insertTopImg($) {
     $('#post, #page, #archive, #tag, #category').prepend(`<div class="top-img" style="background-image: ${background};"></div>`);
 }
 
-hexo.extend.filter.register('after_render:html', function(str, data) {
+hexo.extend.filter.register('after_render:html', function (str, data) {
     let $ = cheerio.load(str, {
         decodeEntities: false
     });
